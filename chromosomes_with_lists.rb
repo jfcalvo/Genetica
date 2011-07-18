@@ -31,6 +31,12 @@ def generate_chromosome_4(length, alleles)
   return chromosome
 end
 
+def generate_chromosome_5(length, alleles)
+  chromosome = Array.new
+  length.times { chromosome << alleles.sample }
+  return chromosome
+end
+
 # 26.19594 seconds crossovering 10000000 chromosomes
 def single_point_crossover_1(chromosome_a, chromosome_b)
   locus = rand(chromosome_a.size)
@@ -66,17 +72,20 @@ end
 
 repeat = 10000000
 
-# puts "Using generate_chromosome_1:"
-# measure_time(repeat) { generate_chromosome_1 8, [0, 1] }
-# 
-# puts "Using generate_chromosome_2:"
-# measure_time(repeat) { generate_chromosome_2 8, [0, 1] }
-# 
-# puts "Using generate_chromosome_3:"
-# measure_time(repeat) { generate_chromosome_3 8, [0, 1] }
-# 
-# puts "Using generate_chromosome_4:"
-# measure_time(repeat) { generate_chromosome_4 8, [0, 1] }
+puts "Using generate_chromosome_1:"
+measure_time(repeat) { generate_chromosome_1 8, [0, 1] }
+
+puts "Using generate_chromosome_2:"
+measure_time(repeat) { generate_chromosome_2 8, [0, 1] }
+ 
+puts "Using generate_chromosome_3:"
+measure_time(repeat) { generate_chromosome_3 8, [0, 1] }
+ 
+puts "Using generate_chromosome_4:"
+measure_time(repeat) { generate_chromosome_4 8, [0, 1] }
+
+puts "Using generate_chromosome_5:"
+measure_time(repeat) { generate_chromosome_5 8, [0, 1] }
 
 puts "Generating chromosomes."
 chromosome_a = generate_chromosome_4 8, [0, 1]
@@ -85,9 +94,9 @@ chromosome_b = generate_chromosome_4 8, [0, 1]
 puts "Using single_point_crossover_1:"
 measure_time(repeat) { single_point_crossover_1 chromosome_a, chromosome_b }
 
-puts "Using single_points_crossover_2:"
+puts "Using single_point_crossover_2:"
 measure_time(repeat) { single_point_crossover_2 chromosome_a, chromosome_b }
 
-puts "Using single_points_crossover_3:"
+puts "Using single_point_crossover_3:"
 measure_time(repeat) { single_point_crossover_3 chromosome_a, chromosome_b }
 
