@@ -18,19 +18,17 @@ module Genetica
       # FUTURE: With the future 1.9.3 version of Ruby we could change the next random 
       # generator for something like:
       # rand 0.0..(chromosome_fitness.inject(:+))
+
+      # Get random number
       random_generator = Random.new
       random_number = random_generator.rand 0.0..chromosome_fitness.inject(:+)
 
-      puts "Random number #{random_number}"
-
       # Chromosome selection
       fitness_counter = 0
-      chromosome_fitness.each_with_index do |fitness, i|
-        fitness_counter += fitness
-        puts "Fitness counter #{fitness_counter}"        
+      @chromosome_population.each_with_index do |chromosome, i|
+        fitness_counter += chromosome_fitness[i]
         if fitness_counter >= random_number
-          puts "Chromosome #{i} with fitness #{chromosome_fitness[i]}"
-          return @chromosome_population[i]
+          return chromosome
         end
       end
     end
