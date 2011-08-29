@@ -2,13 +2,13 @@ module Genetica
   class PopulationBuilder
 
     # Population attributes
-    attr_writer :size
-    attr_writer :crossover_probability
-    attr_writer :mutation_probability
-    attr_writer :fitness_function
+    attr_accessor :size
+    attr_accessor :crossover_probability
+    attr_accessor :mutation_probability
+    attr_accessor :fitness_function
     # Chromosome attributes
-    attr_writer :chromosome_length
-    attr_writer :chromosome_alleles
+    attr_accessor :chromosome_length
+    attr_accessor :chromosome_alleles
 
     def initialize
       # Default Population values
@@ -21,14 +21,14 @@ module Genetica
       @chromosome_alleles = [0, 1]
     end
 
-    def generate
+    def population
       # Generating Chromosome population
       chromosome_builder = ChromosomeBuilder.new
       chromosome_builder.length = @chromosome_length
       chromosome_builder.alleles = @chromosome_alleles
 
       chromosome_population = Array.new
-      @size.times { chromosome_population << chromosome_builder.generate }
+      @size.times { chromosome_population << chromosome_builder.chromosome }
 
       # Generating Population 
       population = Population.new chromosome_population

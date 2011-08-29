@@ -1,8 +1,8 @@
 module Genetica
   class ChromosomeBuilder
 
-    attr_writer :length
-    attr_writer :alleles
+    attr_accessor :length
+    attr_accessor :alleles
 
     def initialize
       # Default Chromosome values
@@ -10,7 +10,7 @@ module Genetica
       @alleles = [0, 1]
     end
     
-    def generate
+    def chromosome
       chromosome = Array.new
       @length.times { chromosome << @alleles.sample }
       return Chromosome.new(chromosome)

@@ -22,7 +22,7 @@ module Genetica
         @chromosome.collect! do |gene|
           if rand.between? 0, mutation_probability
             # Mutated Gene, we select a different gene from the alleles
-            (alleles - [gene]).sample  
+            (alleles - [gene]).sample
           else
             # Gene without mutation
             gene 
