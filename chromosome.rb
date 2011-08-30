@@ -7,7 +7,7 @@ module Genetica
       @chromosome = chromosome
     end
 
-    def single_point_crossover(chromosome) 
+    def single_point_crossover(chromosome)
       other_chromosome = chromosome.chromosome
       locus = rand(other_chromosome.size) + 1
 

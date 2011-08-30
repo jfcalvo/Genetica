@@ -35,6 +35,7 @@ module Genetica
       population.crossover_probability = @crossover_probability
       population.mutation_probability = @mutation_probability
       population.fitness_function = @fitness_function
+      population.chromosome_alleles = @chromosome_alleles
       
       return population
     end
