@@ -25,7 +25,7 @@ module Genetica
             (alleles - [gene]).sample
           else
             # Gene without mutation
-            gene 
+            gene
           end
         end
       end

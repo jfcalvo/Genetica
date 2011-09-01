@@ -1,10 +1,14 @@
 module Genetica
   class Population
 
+    attr_reader :chromosome_population
+
+    # Population attributes
     attr_accessor :crossover_probability
     attr_accessor :mutation_probability
     attr_accessor :fitness_function
-    attr_accessor :chromosome_alleles
+    # Chromosome attributes
+    attr_accessor :chromosome_alleles    
 
     def initialize(chromosome_population)
       @chromosome_population = chromosome_population
@@ -13,7 +17,7 @@ module Genetica
     def fitness_proportionate_selection
       # Get an array with chromosome fitness      
       chromosome_fitness = @chromosome_population.collect { |chromosome| @fitness_function.call(chromosome) }
-            
+
       # FUTURE: With Ruby 1.9.3 you can use rand with ranges, e.g. rand 0.0..3.4
       # Get random number
       random_generator = Random.new
@@ -32,28 +36,36 @@ module Genetica
     def run(generations=1)
       generations.times do
         # Generate a new chromosome population
-        chromosome_population = Array.new        
-                                
-        # Selection Step
-        # Select a pair of parent chromosomes from the current population.
-        # This selection is 'with replacement', the same chromosome can be selected
-        # more than once to become a parent.
-        chromosome_a = self.fitness_proportionate_selection
-        chromosome_b = self.fitness_proportionate_selection
+        chromosome_population = Array.new
 
-        # Crossover Step
-        if rand.between? 0, @crossover_probability
-          offspring_a, offspring_b = chromosome_a.single_point_crossover chromosome_b
-        else
-          offspring_a, offspring_b = chromosome_a, chromosome_b
+        while chromosome_population.size < @chromosome_population.size
+          # 1. Selection Step
+          # Select a pair of parent chromosomes from the current population.
+          # This selection is 'with replacement', the same chromosome can be selected
+          # more than once to become a parent.
+          chromosome_a = self.fitness_proportionate_selection
+          chromosome_b = self.fitness_proportionate_selection
+
+          # 2. Crossover Step
+          # TODO: Maybe crossover probability check would be in the single_point_crossover of
+          # Chromosome class.
+          if rand.between? 0, @crossover_probability
+            offspring_a, offspring_b = chromosome_a.single_point_crossover chromosome_b
+          else
+            offspring_a, offspring_b = chromosome_a, chromosome_b
+          end
+
+          # 3. Mutation Step
+          offspring_a.mutate! @mutation_probability, @chromosome_alleles
+          offspring_b.mutate! @mutation_probability, @chromosome_alleles
+
+          # 4. Adding offsprings to new chromosome population
+          chromosome_population << offspring_a << offspring_b
         end
 
-        # Mutation Step
-        offspring_a.mutate! @mutation_probability, @chromosome_alleles
-        offspring_b.mutate! @mutation_probability, @chromosome_alleles
+        # Replacing chromosome population with the new one
+        @chromosome_population = chromosome_population
 
-        # Adding offsprings to new chromosome population
-        chromosome_population << offspring_a << offspring_b
       end
     end
 
