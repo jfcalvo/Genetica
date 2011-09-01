@@ -1,4 +1,4 @@
-load 'genetica.rb'
+load '../../genetica.rb'
 
 # Fitness function
 def number_of_ones(chromosome)
