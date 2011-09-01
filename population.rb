@@ -1,6 +1,7 @@
 module Genetica
   class Population
 
+    attr_reader :generations
     attr_reader :chromosome_population
 
     # Population attributes
@@ -11,7 +12,12 @@ module Genetica
     attr_accessor :chromosome_alleles    
 
     def initialize(chromosome_population)
+      @generations = 0
       @chromosome_population = chromosome_population
+    end
+
+    def best_fitness
+      @chromosome_population.collect { |chromosome| @fitness_function.call(chromosome) }.max
     end
     
     def fitness_proportionate_selection
@@ -66,6 +72,8 @@ module Genetica
         # Replacing chromosome population with the new one
         @chromosome_population = chromosome_population
 
+        # A new generation has been created
+        @generations += 1
       end
     end
 
