@@ -18,7 +18,7 @@ population_builder.fitness_function = method(:number_of_ones)
 
 generations_best_fitness = Array.new
 
-500.times do
+100.times do
 	# Generating Population
 	population = population_builder.population
 
@@ -30,9 +30,9 @@ generations_best_fitness = Array.new
 	end
 
 	# Storing generation best fitness
-	generations_best_fitness << population.generations	
+	generations_best_fitness << population.generation
 
-	puts "Fitness #{fitness} achieved at generation #{population.generations}."
+	puts "Fitness #{fitness} achieved at generation #{population.generation}."
 end
 
 generations_best_fitness_average = generations_best_fitness.inject(:+)/generations_best_fitness.size.to_f

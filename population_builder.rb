@@ -32,10 +32,10 @@ module Genetica
 
       # Generating Population 
       population = Population.new chromosome_population
+      population.alleles = @chromosome_alleles
       population.crossover_probability = @crossover_probability
       population.mutation_probability = @mutation_probability
       population.fitness_function = @fitness_function
-      population.chromosome_alleles = @chromosome_alleles
       
       return population
     end

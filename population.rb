@@ -1,38 +1,40 @@
 module Genetica
   class Population
 
-    attr_reader :generations
-    attr_reader :chromosome_population
+    attr_reader :population
+    attr_reader :generation
 
-    # Population attributes
+    attr_accessor :alleles
     attr_accessor :crossover_probability
     attr_accessor :mutation_probability
     attr_accessor :fitness_function
-    # Chromosome attributes
-    attr_accessor :chromosome_alleles    
 
-    def initialize(chromosome_population)
-      @generations = 0
-      @chromosome_population = chromosome_population
+    def initialize(population)
+      @population = population
+      @generation = 0
     end
 
     def best_fitness
-      @chromosome_population.collect { |chromosome| @fitness_function.call(chromosome) }.max
+      self.population_fitness.max      
+    end
+
+    def population_fitness
+      @population.collect { |chromosome| @fitness_function.call(chromosome) }
     end
     
     def fitness_proportionate_selection
       # Get an array with chromosome fitness      
-      chromosome_fitness = @chromosome_population.collect { |chromosome| @fitness_function.call(chromosome) }
+      population_fitness = self.population_fitness
 
       # FUTURE: With Ruby 1.9.3 you can use rand with ranges, e.g. rand 0.0..3.4
       # Get random number
       random_generator = Random.new
-      random_number = random_generator.rand 0.0..chromosome_fitness.inject(:+)
+      random_number = random_generator.rand 0.0..population_fitness.inject(:+)
 
       # Chromosome selection
       fitness_counter = 0
-      @chromosome_population.each_with_index do |chromosome, i|
-        fitness_counter += chromosome_fitness[i]
+      @population.each_with_index do |chromosome, i|
+        fitness_counter += population_fitness[i]
         if fitness_counter >= random_number
           return chromosome
         end
@@ -42,9 +44,9 @@ module Genetica
     def run(generations=1)
       generations.times do
         # Generate a new chromosome population
-        chromosome_population = Array.new
+        population = Array.new
 
-        while chromosome_population.size < @chromosome_population.size
+        while population.size < @population.size
           # 1. Selection Step
           # Select a pair of parent chromosomes from the current population.
           # This selection is 'with replacement', the same chromosome can be selected
@@ -62,18 +64,18 @@ module Genetica
           end
 
           # 3. Mutation Step
-          offspring_a.mutate! @mutation_probability, @chromosome_alleles
-          offspring_b.mutate! @mutation_probability, @chromosome_alleles
+          offspring_a.mutate! @mutation_probability, @alleles
+          offspring_b.mutate! @mutation_probability, @alleles
 
           # 4. Adding offsprings to new chromosome population
-          chromosome_population << offspring_a << offspring_b
+          population << offspring_a << offspring_b
         end
 
         # Replacing chromosome population with the new one
-        @chromosome_population = chromosome_population
+        @population = population
 
         # A new generation has been created
-        @generations += 1
+        @generation += 1
       end
     end
 
