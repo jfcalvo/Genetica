@@ -57,7 +57,7 @@ module Genetica
           # 2. Crossover Step
           # TODO: Maybe crossover probability check would be in the single_point_crossover of
           # Chromosome class.
-          if rand.between? 0, @crossover_probability
+          if @crossover_probability > 0 and rand.between? 0, @crossover_probability
             offspring_a, offspring_b = chromosome_a.single_point_crossover chromosome_b
           else
             offspring_a, offspring_b = chromosome_a, chromosome_b
@@ -68,8 +68,11 @@ module Genetica
           offspring_b.mutate! @mutation_probability, @alleles
 
           # 4. Adding offsprings to new chromosome population
-          population << offspring_a << offspring_b
+          population << offspring_a << offspring_b          
         end
+
+        # If original population size is odd discard a random chromosome
+        population.delete_at rand population.size if @population.size.odd?
 
         # Replacing chromosome population with the new one
         @population = population
