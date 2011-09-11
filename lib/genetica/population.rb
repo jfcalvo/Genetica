@@ -18,6 +18,10 @@ module Genetica
       self.population_fitness.max      
     end
 
+    def average_fitness
+      self.population_fitness.inject(:+) / population_fitness.size.to_f
+    end
+
     def population_fitness
       @population.collect { |chromosome| @fitness_function.call(chromosome) }
     end
