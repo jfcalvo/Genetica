@@ -30,7 +30,7 @@ def exercise_run(population_builder, runs)
     population = population_builder.population
 
     fitness = 0
-    while fitness < 20
+    while fitness < population_builder.chromosome_length
       # Perform a run of one generation
       population.run generations=1 
       # Get the best fitness of this run
