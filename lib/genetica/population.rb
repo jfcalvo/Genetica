@@ -14,6 +14,10 @@ module Genetica
       @generation = 0
     end
 
+    def best_chromosome
+      @population.at self.population_fitness.index(self.best_fitness)
+    end
+
     def best_fitness
       self.population_fitness.max      
     end

@@ -16,75 +16,92 @@
 
 require 'genetica'
 
-
-# Run code function for the exercise
-def exercise_run(population_builder, runs)
-  # An array with the number of generations necessary by every population
-  # to discover the chromosome of all ones
-  generations_discovered = Array.new
-
-  # Runs
-  print "Running"
-  runs.times do
-    # Generating a new Population
-    population = population_builder.population
-
-    fitness = 0
-    while fitness < population_builder.chromosome_length
-      # Perform a run of one generation
-      population.run generations=1 
-      # Get the best fitness of this run
-      fitness = population.best_fitness
-    end
-
-    # Saving at which generation the chromosome of all ones is discovered
-    generations_discovered << population.generation
-
-    # Showing to screen that a new run has been executed
-    print "."
-  end
-
-  # Showing the average generation at which the chromosome of all ones was
-  # discovered
-  puts "\nCalculating average generation..."
-  average_generation = generations_discovered.inject(:+) / generations_discovered.size.to_f
-  puts "Average generation to discover chromosome of all ones (for #{runs} runs): #{average_generation}."
-end
-
-
 # Creating the fitness function
 def number_of_ones(chromosome)
   return chromosome.chromosome.count 1 # Number of ones in the chromosome
 end
 
-# Creating a Population builder
-population_builder = Genetica::PopulationBuilder.new
-# Setting Population
-population_builder.size = 100                                 # Population Size
-population_builder.crossover_probability = 0.7                # Crossover rate
-population_builder.mutation_probability = 0.001               # Mutation rate
-population_builder.chromosome_length = 20                     # Chromosome length
-population_builder.chromosome_alleles = [0, 1]                # Chromosome alleles
-population_builder.fitness_function = method(:number_of_ones) # Fitness Function
+class Exercise_1_1
+  
+  def initialize
+    # Creating a Population builder
+    @population_builder = Genetica::PopulationBuilder.new
+    # Setting Population
+    @population_builder.size = 100                                 # Population Size
+    @population_builder.crossover_probability = 0.7                # Crossover rate
+    @population_builder.mutation_probability = 0.001               # Mutation rate
+    @population_builder.chromosome_length = 20                     # Chromosome length
+    @population_builder.chromosome_alleles = [0, 1]                # Chromosome alleles
+    @population_builder.fitness_function = method(:number_of_ones) # Fitness Function
 
-# Step 1.
-# Perform 20 runs, and measure the average generation at which the string of
-# all ones is discovered.
-runs = 20
-exercise_run(population_builder, runs)
+    @runs = 20 # Number of runs
+  end
 
-# Step 2.
-# Perform the same experiment with crossover turned off (i.e., pc = 0).
+  def step_1
+    # Perform 20 runs, and measure the average generation at which the string of
+    # all ones is discovered.
+    @population_builder.crossover_probability = 0.7  # Crossover rate
+    @population_builder.mutation_probability = 0.001 # Mutation rate
+    
+    self.run
+  end
 
-# Set crossover rate to 0
-population_builder.crossover_probability = 0
-# Run
-puts "Same running with crossover turned off..."
-exercise_run(population_builder, runs)
+  def step_2
+    # Perform the same experiment with crossover turned off (i.e., pc = 0).
+    @population_builder.crossover_probability = 0    # Crossover rate (off)
+    @population_builder.mutation_probability = 0.001 # Mutation rate
 
-# Step 3.
-# With mutation turned off and crossover probability to 0.7
-puts "Same running with mutation turned off and crossover probability to 0.7."
-population_builder.mutation_probability = 0
-population_builder.crossover_probability = 0.7
-exercise_run(population_builder, runs)
+    self.run
+  end
+
+  def step_3
+    # With mutation turned off and crossover probability to 0.7
+    @population_builder.crossover_probability = 0.7 # Crossover rate
+    @population_builder.mutation_probability = 0    # Mutation rate (off)
+
+    self.run
+  end
+
+  def run
+    # An array with the number of generations necessary by every population
+    # to discover the chromosome of all ones
+    generations_discovered = Array.new
+
+    # Runs
+    print "Running"
+    @runs.times do
+      # Generating a new Population
+      population = @population_builder.population
+
+      fitness = 0
+      while fitness < @population_builder.chromosome_length
+        # Perform a run of one generation
+        population.run generations=1 
+        # Get the best fitness of this run
+        fitness = population.best_fitness
+      end
+
+      # Saving at which generation the chromosome of all ones is discovered
+      generations_discovered << population.generation
+
+      # Showing to screen that a new run has been executed
+      print "."
+    end
+
+    # Showing the average generation at which the chromosome of all ones was
+    # discovered
+    puts "\nCalculating average generation..."
+    average_generation = generations_discovered.inject(:+) / generations_discovered.size.to_f
+    puts "Average generation to discover chromosome of all ones (for #{@runs} runs): #{average_generation}."
+  end
+
+end
+
+
+# Running Exercise
+exercise_1_1 = Exercise_1_1.new
+
+exercise_1_1.step_1
+exercise_1_1.step_2
+exercise_1_1.step_3
+
