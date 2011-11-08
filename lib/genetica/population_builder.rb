@@ -3,6 +3,7 @@ module Genetica
 
     # Population attributes
     attr_accessor :size
+    attr_accessor :elitism
     attr_accessor :crossover_probability
     attr_accessor :mutation_probability
     attr_accessor :fitness_function
@@ -13,6 +14,7 @@ module Genetica
     def initialize
       # Default Population values
       @size = 20
+      @elitism = false
       @crossover_probability = 0.7
       @mutation_probability = 0.001
       @fitness_function = nil
@@ -33,6 +35,7 @@ module Genetica
       # Generating Population 
       population = Population.new chromosome_population
       population.alleles = @chromosome_alleles
+      population.elitism = @elitism
       population.crossover_probability = @crossover_probability
       population.mutation_probability = @mutation_probability
       population.fitness_function = @fitness_function

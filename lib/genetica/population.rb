@@ -5,6 +5,7 @@ module Genetica
     attr_reader :generation
 
     attr_accessor :alleles
+    attr_accessor :elitism
     attr_accessor :crossover_probability
     attr_accessor :mutation_probability
     attr_accessor :fitness_function
@@ -60,6 +61,9 @@ module Genetica
       generations.times do
         # Generate a new chromosome population
         population = Array.new
+
+        # If elitism flag is set to true we retaing the best individual of the population
+        population << self.best_chromosome if @elitism
 
         while population.size < @population.size
           # 1. Selection Step
