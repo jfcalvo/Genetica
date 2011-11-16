@@ -14,7 +14,7 @@ module Genetica
     def initialize
       # Default Population values
       @size = 20
-      @elitism = false
+      @elitism = 0
       @crossover_probability = 0.7
       @mutation_probability = 0.001
       @fitness_function = nil
