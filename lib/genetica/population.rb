@@ -15,19 +15,21 @@ module Genetica
       @population = population
     end
 
-    def best_chromosome(quantity=1)
-      if quantity > 1
-        return self.best_fitness(quantity).collect { |fitness| @population.at(@population_fitness.index fitness) }
-      end
-      @population.at @population_fitness.index(self.best_fitness)      
+    def best_chromosome
+      @population.at @population_fitness.index(self.best_fitness)
     end
 
-    def best_fitness(quantity=1)
-      if quantity > 1
-        return @population_fitness.sort.reverse.take(quantity)
-      end
+    def best_chromosomes(quantity=1)
+      self.best_fitnesses(quantity).collect { |fitness| @population.at(@population_fitness.index fitness) }     
+    end
+
+    def best_fitness
       @population_fitness.max
     end
+
+    def best_fitnesses(quantity=1)
+      @population_fitness.sort.reverse.take(quantity)      
+    end    
 
     def average_fitness
       @population_fitness.inject(:+) / @population_fitness.size.to_f
@@ -69,7 +71,7 @@ module Genetica
         population = Array.new
 
         # If elitism if greater than 0 then we save the same number of chromosomes to the next generation
-        population += [self.best_chromosome(quantity=@elitism)].flatten if @elitism > 0
+        population += self.best_chromosomes(quantity=@elitism) if @elitism > 0
 
         while population.size < @population.size
           # 1. Selection Step
