@@ -1,0 +1,7 @@
+Genetica 0.0.1.beta.2 (23/11/2011):
+  - Now you can get the best chromosomes of a Population with a quantity parameter using best_chromosomes method.
+  - Now you can get the best fitnesses of a Population with a quantity parameter using best_fitnesses method.
+  - Added elitism operator to Population class.
+
+Genetica 0.0.1.beta.1 (16/09/2011):
+  - Initial version.

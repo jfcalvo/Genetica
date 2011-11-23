@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'genetica'
-  s.version     = '0.0.1.beta.1'
-  s.date        = '2011-09-08'
+  s.version     = '0.0.1.beta.2'
+  s.date        = '2011-11-23'
   s.summary     = "The Ruby Genetic Algorithms Gem."
   s.description = "Genetica is a library to create and use Genetics Algorithms with Ruby."
   s.author      = 'José Francisco Calvo'
