@@ -6,7 +6,7 @@ Genetica is a library to create and use **Genetics Algorithms** with Ruby.
 
 You can visit the page of *genetica* at https://rubygems.org/gems/genetica to see how install the latest gem version.
 
-At the moment with version 0.0.1.beta.1 you can use the next command:
+At the moment with version 0.0.1.beta.2 you can use the next command:
 
 <pre><code>gem install genetica --pre</pre></code>
 
