@@ -2,20 +2,19 @@
 # A small example on how to use the genetica Ruby gem.
 require 'genetica'
 
+class WordPopulation < Genetica::Population 
 
-class WordPopulation < Genetica::Population	
+  def fitness(chromosome)
+    (0...WORD.size).inject(0) { |distance, index| WORD[index] == chromosome[index] ? distance += 1 : distance }
+  end
 
-	def fitness(chromosome)
-		(0...WORD.size).inject(0) { |distance, index| WORD[index] == chromosome[index] ? distance += 1 : distance }
-	end
-
-	def run
-		while self.best_fitness < WORD.size
-			super generations=1
-			puts "#{self.best_chromosome}, generation: #{self.generation}, distance: #{self.best_fitness}"			
-		end
-		puts "Solution at generation: #{self.generation}."
-	end
+  def run
+    while self.best_fitness < WORD.size
+      super generations=1
+      puts "#{self.best_chromosome}, generation: #{self.generation}, distance: #{self.best_fitness}"          
+    end
+    puts "Solution at generation: #{self.generation}."
+  end
 
 end
 
