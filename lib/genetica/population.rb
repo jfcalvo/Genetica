@@ -1,7 +1,6 @@
 module Genetica
-  class Population
+  class Population < Array
 
-    attr_reader :population
     attr_reader :generation
 
     attr_accessor :alleles
@@ -12,15 +11,15 @@ module Genetica
 
     def initialize(population)
       @generation = 0
-      @population = population
+      super population
     end
 
     def best_chromosome
-      @population.at @population_fitness.index(self.best_fitness)
+      self.at @population_fitness.index(self.best_fitness)
     end
 
     def best_chromosomes(quantity=1)
-      self.best_fitnesses(quantity).collect { |fitness| @population.at(@population_fitness.index fitness) }     
+      self.best_fitnesses(quantity).collect { |fitness| self.at(@population_fitness.index fitness) }     
     end
 
     def best_fitness
@@ -36,7 +35,7 @@ module Genetica
     end
 
     def population_fitness
-      @population.collect { |chromosome| @fitness_function.call(chromosome) }
+      self.collect { |chromosome| @fitness_function.call(chromosome) }
     end
 
     def fitness_function=(new_fitness_function)
@@ -44,8 +43,8 @@ module Genetica
       @population_fitness = self.population_fitness
     end
 
-    def population=(new_population)
-      @population = new_population
+    def replace(other_ary)
+      super other_ary
       @population_fitness = self.population_fitness
     end
 
@@ -57,7 +56,7 @@ module Genetica
 
       # Chromosome selection
       fitness_counter = 0
-      @population.each_with_index do |chromosome, i|
+      self.each_with_index do |chromosome, i|
         fitness_counter += @population_fitness[i]
         if fitness_counter >= random_number
           return chromosome
@@ -73,7 +72,7 @@ module Genetica
         # If elitism if greater than 0 then we save the same number of chromosomes to the next generation
         population += self.best_chromosomes(quantity=@elitism) if @elitism > 0
 
-        while population.size < @population.size
+        while population.size < self.size
           # 1. Selection Step
           # Select a pair of parent chromosomes from the current population.
           # This selection is 'with replacement', the same chromosome can be selected
@@ -99,10 +98,10 @@ module Genetica
         end
 
         # If original population size is odd discard a random chromosome
-        population.delete_at rand population.size if @population.size.odd?
+        population.delete_at rand population.size if self.size.odd?
 
         # Replacing chromosome population with the new one
-        self.population = population
+        self.replace population
 
         # A new generation has been created
         @generation += 1
