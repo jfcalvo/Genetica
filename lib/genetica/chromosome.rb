@@ -1,27 +1,18 @@
-require 'forwardable'
-
 module Genetica
-  class Chromosome    
-    extend Forwardable
-
-    def_delegators :@chromosome, :[], :size, :take, :last, :<<
-
-    def initialize(chromosome)
-      @chromosome = chromosome
-    end
+  class Chromosome < Array
 
     def single_point_crossover(chromosome)
       locus = rand(chromosome.size) + 1
 
-      offspring_a = @chromosome.take(locus) + chromosome.last(@chromosome.size - locus)
-      offspring_b = chromosome.take(locus) + @chromosome.last(@chromosome.size - locus)
+      offspring_a = self.take(locus) + chromosome.last(self.size - locus)
+      offspring_b = chromosome.take(locus) + self.last(self.size - locus)
 
       return Chromosome.new(offspring_a), Chromosome.new(offspring_b)
     end
 
     def mutate!(mutation_probability, alleles)
       if mutation_probability > 0
-        @chromosome.collect! do |gene|
+        self.collect! do |gene|
           if rand.between? 0, mutation_probability
             # Mutated Gene, we select a different gene from the alleles
             (alleles - [gene]).sample
@@ -34,9 +25,8 @@ module Genetica
     end
 
     def to_s
-      @chromosome.join
+      self.join
     end
 
   end
 end
-
