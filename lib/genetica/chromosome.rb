@@ -1,18 +1,20 @@
-module Genetica
-  class Chromosome
+require 'forwardable'
 
-    attr_reader :chromosome
+module Genetica
+  class Chromosome    
+    extend Forwardable
+
+    def_delegators :@chromosome, :[], :size, :take, :last, :<<
 
     def initialize(chromosome)
       @chromosome = chromosome
     end
 
     def single_point_crossover(chromosome)
-      other_chromosome = chromosome.chromosome
-      locus = rand(other_chromosome.size) + 1
+      locus = rand(chromosome.size) + 1
 
-      offspring_a = @chromosome.take(locus) + other_chromosome.last(@chromosome.size - locus)
-      offspring_b = other_chromosome.take(locus) + @chromosome.last(@chromosome.size - locus)
+      offspring_a = @chromosome.take(locus) + chromosome.last(@chromosome.size - locus)
+      offspring_b = chromosome.take(locus) + @chromosome.last(@chromosome.size - locus)
 
       return Chromosome.new(offspring_a), Chromosome.new(offspring_b)
     end
@@ -32,7 +34,7 @@ module Genetica
     end
 
     def to_s
-      return @chromosome.join
+      @chromosome.join
     end
 
   end

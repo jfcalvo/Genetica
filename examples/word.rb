@@ -21,7 +21,7 @@ CHROMOSOME_ALLELES = ('a'..'z').to_a | ('A'..'Z').to_a | WORD.chars.to_a | [' ']
 
 # Our fitness function
 def word_distance(chromosome)
-  (0...WORD.size).inject(0) { |distance, index|  WORD[index] == chromosome.chromosome[index] ? distance += 1 : distance }  
+  (0...WORD.size).inject(0) { |distance, index|  WORD[index] == chromosome[index] ? distance += 1 : distance }  
 end
 
 # Creating a new Population Builder
