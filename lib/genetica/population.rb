@@ -1,17 +1,16 @@
 module Genetica
   class Population < Array
 
-    attr_reader :generation
-
+    attr_reader   :generation
     attr_accessor :alleles
     attr_accessor :elitism
     attr_accessor :crossover_probability
     attr_accessor :mutation_probability
-    attr_accessor :fitness_function
 
     def initialize(population)
-      @generation = 0
       super population
+      @generation = 0
+      @population_fitness = self.population_fitness
     end
 
     def best_chromosome
@@ -35,12 +34,7 @@ module Genetica
     end
 
     def population_fitness
-      self.collect { |chromosome| @fitness_function.call(chromosome) }
-    end
-
-    def fitness_function=(new_fitness_function)
-      @fitness_function = new_fitness_function
-      @population_fitness = self.population_fitness
+      self.collect { |chromosome| self.fitness(chromosome) }
     end
 
     def replace(other_ary)
