@@ -4,6 +4,7 @@ module Genetica
     # Population attributes
     attr_accessor :size
     attr_accessor :elitism
+    attr_accessor :crossover_method
     attr_accessor :crossover_probability
     attr_accessor :mutation_probability
     attr_accessor :population_class 
@@ -15,6 +16,7 @@ module Genetica
       # Default Population values
       @size = 20
       @elitism = 0
+      @crossover_method = :uniform_crossover
       @crossover_probability = 0.7
       @mutation_probability = 0.001
       @population_class = nil
@@ -36,6 +38,7 @@ module Genetica
       population = @population_class.new chromosome_population
       population.alleles = @chromosome_alleles
       population.elitism = @elitism
+      population.crossover_method = @crossover_method
       population.crossover_probability = @crossover_probability
       population.mutation_probability = @mutation_probability
 

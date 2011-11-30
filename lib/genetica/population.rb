@@ -4,6 +4,7 @@ module Genetica
     attr_reader   :generation
     attr_accessor :alleles
     attr_accessor :elitism
+    attr_accessor :crossover_method
     attr_accessor :crossover_probability
     attr_accessor :mutation_probability
 
@@ -72,7 +73,7 @@ module Genetica
           chromosome_b = self.fitness_proportionate_selection
 
           # 2. Crossover Step
-          offspring_a, offspring_b = chromosome_a.single_point_crossover @crossover_probability, chromosome_b
+          offspring_a, offspring_b = chromosome_a.crossover @crossover_method, @crossover_probability, chromosome_b
 
           # 3. Mutation Step
           offspring_a.mutate! @mutation_probability, @alleles
