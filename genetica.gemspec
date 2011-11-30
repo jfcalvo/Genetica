@@ -8,4 +8,5 @@ Gem::Specification.new do |s|
   s.email       = 'josefranciscocalvo@gmail.com'
   s.files       = Dir["lib/*.rb", "lib/genetica/*.rb"]
   s.homepage    = 'http://dev.monsterzen.com/projects/genetica.html'
+  s.required_ruby_version = '>= 1.9.3'
 end

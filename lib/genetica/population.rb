@@ -43,10 +43,7 @@ module Genetica
     end
 
     def fitness_proportionate_selection
-      # FUTURE: With Ruby 1.9.3 you can use rand with ranges, e.g. rand 0.0..3.4
-      # Get random number
-      random_generator = Random.new
-      random_number = random_generator.rand 0.0..@population_fitness.inject(:+)
+      random_number = rand 0.0..@population_fitness.inject(:+)
 
       # Chromosome selection
       fitness_counter = 0
@@ -75,13 +72,7 @@ module Genetica
           chromosome_b = self.fitness_proportionate_selection
 
           # 2. Crossover Step
-          # TODO: Maybe crossover probability check would be in the single_point_crossover of
-          # Chromosome class.
-          if @crossover_probability > 0 and rand.between? 0, @crossover_probability
-            offspring_a, offspring_b = chromosome_a.single_point_crossover chromosome_b
-          else
-            offspring_a, offspring_b = chromosome_a, chromosome_b
-          end
+          offspring_a, offspring_b = chromosome_a.single_point_crossover @crossover_probability, chromosome_b
 
           # 3. Mutation Step
           offspring_a.mutate! @mutation_probability, @alleles
