@@ -1,6 +1,5 @@
 module Genetica
   class Population < Array
-
     attr_reader   :generation
     attr_accessor :alleles
     attr_accessor :elitism
@@ -19,7 +18,7 @@ module Genetica
     end
 
     def best_chromosomes(quantity=1)
-      self.best_fitnesses(quantity).collect { |fitness| self.at(@population_fitness.index fitness) }     
+      self.best_fitnesses(quantity).collect { |fitness| self.at(@population_fitness.index fitness) }
     end
 
     def best_fitness
@@ -27,8 +26,8 @@ module Genetica
     end
 
     def best_fitnesses(quantity=1)
-      @population_fitness.sort.reverse.take(quantity)      
-    end    
+      @population_fitness.sort.reverse.take(quantity)
+    end
 
     def average_fitness
       @population_fitness.inject(:+) / @population_fitness.size.to_f
@@ -80,7 +79,7 @@ module Genetica
           offspring_b.mutate! @mutation_probability, @alleles
 
           # 4. Adding offsprings to new chromosome population
-          population << offspring_a << offspring_b          
+          population << offspring_a << offspring_b
         end
 
         # If original population size is odd discard a random chromosome
@@ -93,6 +92,5 @@ module Genetica
         @generation += 1
       end
     end
-
   end
 end

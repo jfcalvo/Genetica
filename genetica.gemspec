@@ -7,6 +7,8 @@ Gem::Specification.new do |s|
   s.author      = 'José Francisco Calvo'
   s.email       = 'josefranciscocalvo@gmail.com'
   s.files       = Dir["lib/*.rb", "lib/genetica/*.rb"]
+  s.test_files  = Dir["spec/*.rb"]
   s.homepage    = 'http://dev.monsterzen.com/projects/genetica.html'
   s.required_ruby_version = '>= 1.9.3'
+  s.add_development_dependency 'rspec'
 end

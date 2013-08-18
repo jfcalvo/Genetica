@@ -1,5 +1,6 @@
 module Genetica
   class PopulationBuilder
+    class PopulationClassError < StandardError; end
 
     # Population attributes
     attr_accessor :size
@@ -7,43 +8,56 @@ module Genetica
     attr_accessor :crossover_method
     attr_accessor :crossover_probability
     attr_accessor :mutation_probability
-    attr_accessor :population_class 
+    attr_accessor :population_class
+
     # Chromosome attributes
     attr_accessor :chromosome_length
     attr_accessor :chromosome_alleles
 
     def initialize
-      # Default Population values
-      @size = 20
-      @elitism = 0
-      @crossover_method = :uniform_crossover
-      @crossover_probability = 0.7
-      @mutation_probability = 0.001
-      @population_class = nil
-      # Default Chromosome values
-      @chromosome_length = 8
-      @chromosome_alleles = [0, 1]
+      set_default_population_attributes
+      set_default_chromosome_attributes
     end
 
     def population
-      # Generating Chromosome population
-      chromosome_builder = ChromosomeBuilder.new
-      chromosome_builder.length = @chromosome_length
-      chromosome_builder.alleles = @chromosome_alleles
+      raise PopulationClassError, "You must assign a population class" if @population_class.nil?
 
-      chromosome_population = Array.new
-      @size.times { chromosome_population << chromosome_builder.chromosome }
-
-      # Generating Population 
-      population = @population_class.new chromosome_population
-      population.alleles = @chromosome_alleles
-      population.elitism = @elitism
-      population.crossover_method = @crossover_method
-      population.crossover_probability = @crossover_probability
-      population.mutation_probability = @mutation_probability
-
-      return population
+      population_class.new(chromosome_population).tap do |population|
+        population.alleles = chromosome_alleles
+        population.elitism = elitism
+        population.crossover_method = crossover_method
+        population.crossover_probability = crossover_probability
+        population.mutation_probability = mutation_probability
+      end
     end
 
+    private
+
+    def set_default_population_attributes
+      self.size = 20
+      self.elitism = 0
+      self.crossover_method = :uniform_crossover
+      self.crossover_probability = 0.7
+      self.mutation_probability = 0.001
+      self.population_class = nil
+    end
+
+    def set_default_chromosome_attributes
+      self.chromosome_length = 8
+      self.chromosome_alleles = [0, 1]
+    end
+
+    def chromosome_population
+      Array.new.tap do |chromosome_population|
+        size.times { chromosome_population << chromosome_builder.chromosome }
+      end
+    end
+
+    def chromosome_builder
+      ChromosomeBuilder.new.tap do |chromosome_builder|
+        chromosome_builder.length = chromosome_length
+        chromosome_builder.alleles = chromosome_alleles
+      end
+    end
   end
 end
