@@ -1,20 +1,23 @@
 module Genetica
   class ChromosomeBuilder
-
     attr_accessor :length
     attr_accessor :alleles
 
     def initialize
-      # Default Chromosome values
-      @length = 8
-      @alleles = [0, 1]
-    end
-    
-    def chromosome
-      chromosome = Array.new
-      @length.times { chromosome << @alleles.sample }
-      return Chromosome.new(chromosome)
+      set_default_chromosome_attributes
     end
 
+    def chromosome
+      Chromosome.new.tap do |chromosome|
+        length.times { chromosome << alleles.sample }
+      end
+    end
+
+    private
+
+    def set_default_chromosome_attributes
+      self.length = 8
+      self.alleles = [0, 1]
+    end
   end
 end

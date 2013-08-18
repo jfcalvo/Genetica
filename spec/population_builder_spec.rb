@@ -2,13 +2,12 @@ require 'spec_helper'
 
 class PopulationClass < Genetica::Population
   def fitness(chromosome)
-    1
   end
 end
 
-shared_examples 'correct attribute values' do
+shared_examples 'correct population attribute values' do
   its(:population_class) { should be == PopulationClass }
-  its('population') { should be_an_instance_of PopulationClass }
+  its(:population) { should be_an_instance_of PopulationClass }
   its('population.size') { should be == subject.size }
   its('population.elitism') { should be == subject.elitism }
   its('population.crossover_method') { should be == subject.crossover_method }
@@ -19,14 +18,14 @@ shared_examples 'correct attribute values' do
 end
 
 describe Genetica::PopulationBuilder do
-  subject { Genetica::PopulationBuilder.new }
+  subject { described_class.new }
 
   describe '#population' do
     context 'assigned population class' do
       before { subject.population_class = PopulationClass }
 
       context 'build population with default values' do
-        it_behaves_like 'correct attribute values'
+        it_behaves_like 'correct population attribute values'
       end
 
       context 'build population with custom values' do
@@ -48,7 +47,7 @@ describe Genetica::PopulationBuilder do
           subject.chromosome_alleles = chromosome_alleles
         end
 
-        it_behaves_like 'correct attribute values'
+        it_behaves_like 'correct population attribute values'
       end
     end
 
