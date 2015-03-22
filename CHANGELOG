@@ -1,3 +1,7 @@
+Genetica 0.0.1 (23/03/2015):
+  - Use memoize pattern in some population methods.
+  - Improve code style.
+
 Genetica 0.0.1.beta.2 (23/11/2011):
   - Now you can get the best chromosomes of a Population with a quantity parameter using best_chromosomes method.
   - Now you can get the best fitnesses of a Population with a quantity parameter using best_fitnesses method.

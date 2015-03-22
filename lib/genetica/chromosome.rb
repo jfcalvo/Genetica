@@ -1,22 +1,19 @@
 module Genetica
   class Chromosome < Array
-  
-    # TODO: Add conts with the name of the crossover method to call    
-
     def crossover(crossover_method, crossover_probability, chromosome)
-      if crossover_probability > 0 and rand.between? 0, crossover_probability
-        return self.send(crossover_method, crossover_probability, chromosome)
+      if crossover_probability > 0 && rand.between?(0, crossover_probability)
+        self.send(crossover_method, crossover_probability, chromosome)
+      else
+        # There is no crossover, return chromosomes without changes
+        return self, chromosome
       end
-
-      # There is no crossover, return chromosomes without changes
-      return self, chromosome
     end
 
-    def single_point_crossover(crossover_probability, chromosome)  
+    def single_point_crossover(crossover_probability, chromosome)
       locus = rand(chromosome.size) + 1
 
-      offspring_a = self.take(locus) + chromosome.last(self.size - locus)
-      offspring_b = chromosome.take(locus) + self.last(self.size - locus)
+      offspring_a = take(locus) + chromosome.last(size - locus)
+      offspring_b = chromosome.take(locus) + last(size - locus)
 
       return Chromosome.new(offspring_a), Chromosome.new(offspring_b)
     end
@@ -39,7 +36,7 @@ module Genetica
 
     def mutate!(mutation_probability, alleles)
       if mutation_probability > 0
-        self.collect! do |gene|
+        map! do |gene|
           if rand.between? 0, mutation_probability
             # Mutated Gene, we select a different gene from the alleles
             (alleles - [gene]).sample
@@ -52,8 +49,7 @@ module Genetica
     end
 
     def to_s
-      self.join
+      join
     end
-
   end
 end
