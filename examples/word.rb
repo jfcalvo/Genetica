@@ -4,7 +4,7 @@ require 'genetica'
 
 class WordPopulation < Genetica::Population
   def fitness(chromosome)
-    (0...WORD.size).inject(0) { |distance, index| WORD[index] == chromosome[index] ? distance += 1 : distance }
+    chromosome.zip(WORD.chars).count { |l, r| l == r }
   end
 
   def run
